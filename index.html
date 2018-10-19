@@ -103,9 +103,14 @@
                     <a :href="git.url" target="_blank">Lien Github</a>
                 </div>
             </div>
-            <p v-for="commit in git.commits">
-                {{ commit.message }}
-            </p>
+            <a v-for="commit in git.commits" :href="commit.url" target="_blank" class="row commit-line">
+                <div class="col-6">
+                    {{ commit.message }}
+                </div>
+                <div class="col-6">
+                    {{ commit.date }}
+                </div>
+            </a>
             <p v-for="error in git.errors" class="text-danger">
                 {{ error.message }}
             </p>

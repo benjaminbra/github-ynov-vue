@@ -85,11 +85,13 @@ var app = new Vue({
                             })
                                 .then(function (response) {
                                     for (let c in response.data) {
-                                        let commitResponse = response.data[c].commit;
-                                        let dateCommit = new Date(Date.parse(commitResponse.committer.date));
+                                        let commitResponse = response.data[c];
+                                        let dateCommit = new Date(Date.parse(commitResponse.commit.committer.date));
                                         if (dateCommit.getTime() >= progDateDebut.getTime() && dateCommit.getTime() <= progDateFin.getTime()) {
                                             let commit = {};
-                                            commit.message = commitResponse.message;
+                                            commit.message = commitResponse.commit.message;
+                                            commit.date = dateCommit.toUTCString();
+                                            commit.url = commitResponse.html_url;
                                             newGit.commits.push(commit);
                                         }
                                     }

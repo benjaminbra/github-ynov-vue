@@ -50,10 +50,10 @@
                 <div class="row">
                     <div class="col-2"></div>
                     <div class="col-4">
-                        <vuejs-datepicker :value="dateDebut"></vuejs-datepicker>
+                        <vuejs-datepicker v-model="dateDebut"></vuejs-datepicker>
                     </div>
                     <div class="col-4">
-                        <vuejs-datepicker :value="dateFin"></vuejs-datepicker>
+                        <vuejs-datepicker v-model="dateFin"></vuejs-datepicker>
                     </div>
                     <div class="col-2"></div>
                 </div>
@@ -121,6 +121,7 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 <!-- development version, includes helpful console warnings -->
+<script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vuejs-datepicker"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

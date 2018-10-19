@@ -1,6 +1,6 @@
 // Init conf variables
-var TOKEN = '7400fca147350b64d2275ca953dba6bd84e61538';
-var githubUri = 'https://api.github.com';
+var TOKEN = config.TOKEN;
+var githubUri = config.GITHUB_URL;
 
 var app = new Vue({
     el: '#app',
@@ -52,6 +52,10 @@ var app = new Vue({
     methods: {
         refreshProjects: function () {
             app.gitList = [];
+            progDateDebut = new Date(app.dateDebut);
+            progDateDebut.setHours(0, 0, 0, 0);
+            progDateFin = new Date(app.dateFin);
+            progDateFin.setHours(23, 59, 59, 999);
             for (let pS in this.projectSelected) {
                 for (let aS in this.authorSelected) {
                     axios({
@@ -63,9 +67,9 @@ var app = new Vue({
                         url: `${githubUri}/repos/${this.authorSelected[aS]}/${this.projectSelected[pS]}`
                     })
                         .then(function (response) {
-                            repo = response.data;
+                            let repo = response.data;
 
-                            var newGit = {};
+                            let newGit = {};
                             newGit.nom = repo.full_name;
                             newGit.url = repo.html_url;
                             newGit.commits = [];
@@ -80,11 +84,14 @@ var app = new Vue({
                                 url: `${githubUri}/repos/${repo.full_name}/commits`
                             })
                                 .then(function (response) {
-                                    for (c in response.data) {
-                                        var commitResponse = response.data[c].commit;
-                                        var commit = {};
-                                        commit.message = commitResponse.message;
-                                        newGit.commits.push(commit);
+                                    for (let c in response.data) {
+                                        let commitResponse = response.data[c].commit;
+                                        let dateCommit = new Date(Date.parse(commitResponse.committer.date));
+                                        if (dateCommit.getTime() >= progDateDebut.getTime() && dateCommit.getTime() <= progDateFin.getTime()) {
+                                            let commit = {};
+                                            commit.message = commitResponse.message;
+                                            newGit.commits.push(commit);
+                                        }
                                     }
                                     app.gitList.push(newGit);
                                 })

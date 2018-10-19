@@ -65,3 +65,15 @@ header{
 .vdp-datepicker{
     text-align: center!important;
 }
+
+.commit-line{
+    padding: 10px 0;
+    text-decoration: none;
+    color:#000000;
+}
+
+.commit-line:hover{
+    text-decoration: none;
+    color: black;
+    background: navajowhite;
+}

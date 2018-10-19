@@ -6,53 +6,129 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Github Ynov</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="app.css">
 </head>
 <body>
 
-<header>
-    <h1>
-       Application Github Ynov
-    </h1>
-</header>
-
 <div id="app">
+    <div class="splashscreen" v-if="!isLoaded">
+        Application Github Ynov
+    </div>
+    <header>
+        <h1>
+            Application Github Ynov
+        </h1>
+    </header>
     <div class="row menu">
         <div class="col-4">
-            <button class="btn btn-app float-left">
+            <button class="btn btn-app float-left col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9"
+                    v-on:click="openProjectList=true">
                 Choix Projet
             </button>
+            <div class="box-list" v-if="openProjectList">
+                <button class="btn btn-app col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9"
+                        v-on:click="openProjectList=false"> X
+                </button>
+                <div v-for="project in projectList" class="btn-group-toggle">
+                    <label :for="project" class="btn btn-secondary col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9" v-bind:class="{ active: projectSelected.indexOf(project) >= 0}">
+                        <input type="checkbox" v-model="projectSelected" name="projectSelected" :id="project"
+                               :value="project">
+                        {{ project }}
+                    </label>
+                </div>
+            </div>
         </div>
         <div class="col-4">
-            <button class="btn btn-app">
-                Choix Projet
+            <button class="btn btn-app col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9" v-on:click="openPeriod=true">
+                Choix Période
             </button>
+            <div class="box-list" v-if="openPeriod">
+                <button class="btn btn-app col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9" v-on:click="openPeriod=false">X
+                </button>
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        <vuejs-datepicker v-model="dateDebut"></vuejs-datepicker>
+                    </div>
+                    <div class="col-4">
+                        <vuejs-datepicker v-model="dateFin"></vuejs-datepicker>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            </div>
         </div>
         <div class="col-4">
-            <button class="btn btn-app float-right">
-                Choix Projet
+            <button class="btn btn-app float-right col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9"
+                    v-on:click="openAuthorList=true">
+                Choix Compte
             </button>
+            <div class="box-list" v-if="openAuthorList">
+                <button class="btn btn-app col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9"
+                        v-on:click="openAuthorList=false">X
+                </button>
+                <div v-for="author in authorList" class="btn-group-toggle">
+                    <label :for="author" class="btn btn-secondary col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9" v-bind:class="{ active: authorSelected.indexOf(author) >= 0}">
+                        <input type="checkbox" v-model="authorSelected" name="authorSelected" :id="author"
+                               :value="author">
+                        {{ author }}
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div v-for="git in git_list" class="col-12 flow-git">
-        <div class="row header-git">
-            <div class="col-6">
-                {{ nom }} {{ prenom }}
+    <div class="row menu">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <button class="btn btn-app col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9" v-on:click="refreshProjects()">
+                Valider
+            </button>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div v-if="projectSelected.length == 0 || authorSelected.length == 0">
+        Sélectionnez au moins un projet et un compte
+    </div>
+
+    <div v-if="projectSelected.length > 0 && authorSelected.length > 0">
+        <div v-for="git in gitList" class="col-12 flow-git">
+            <div class="row header-git">
+                <div class="col-6">
+                    {{ git.nom }}
+                </div>
+                <div class="col-6">
+                    <a :href="git.url" target="_blank">Lien Github</a>
+                </div>
             </div>
-            <div class="col-6">
-                <a href="">Lien Github</a>
-            </div>
+            <a v-for="commit in git.commits" :href="commit.url" target="_blank" class="row commit-line">
+                <div class="col-6">
+                    {{ commit.message }}
+                </div>
+                <div class="col-6">
+                    {{ commit.date }}
+                </div>
+            </a>
+            <p v-for="error in git.errors" class="text-danger">
+                {{ error.message }}
+            </p>
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 <!-- development version, includes helpful console warnings -->
+<script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vuejs-datepicker"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="app.js"></script>
 </body>

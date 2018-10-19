@@ -1,4 +1,5 @@
 # github-ynov-vue
+Version 1.0.0
 
 ## Initialisation du projet
 

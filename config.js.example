@@ -1,4 +1,4 @@
 var config = {
-    "TOKEN": "TOKEN",
+    "TOKEN": "${TOKEN}",
     "GITHUB_URL": "https://api.github.com"
 }

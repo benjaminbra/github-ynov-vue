@@ -12,47 +12,77 @@
 </head>
 <body>
 
-<header>
-    <h1>
-        Application Github Ynov
-    </h1>
-</header>
-
 <div id="app">
+    <div class="splashscreen" v-if="!isLoaded">
+        Application Github Ynov
+    </div>
+    <header>
+        <h1>
+            Application Github Ynov
+        </h1>
+    </header>
     <div class="row menu">
         <div class="col-4">
-            <button class="btn btn-app float-left">
+            <button class="btn btn-app float-left col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9"
+                    v-on:click="openProjectList=true">
                 Choix Projet
             </button>
-            <div>
-                <div v-for="project,key in projectList">
-                    <input type="checkbox" v-model="projectSelected" name="projectSelected" :id="project"
-                           :value="project" v-on:change="refreshProjects()">
-                    <label :for="project">{{ project }}</label>
+            <div class="box-list" v-if="openProjectList">
+                <button class="btn btn-app col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9"
+                        v-on:click="openProjectList=false"> X
+                </button>
+                <div v-for="project in projectList" class="btn-group-toggle">
+                    <label :for="project" class="btn btn-secondary col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9" v-bind:class="{ active: projectSelected.indexOf(project) >= 0}">
+                        <input type="checkbox" v-model="projectSelected" name="projectSelected" :id="project"
+                               :value="project">
+                        {{ project }}
+                    </label>
                 </div>
             </div>
         </div>
         <div class="col-4">
-            <button class="btn btn-app">
+            <button class="btn btn-app col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9" v-on:click="openPeriod=true">
                 Choix Période
             </button>
+            <div class="box-list" v-if="openPeriod">
+                <button class="btn btn-app col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9" v-on:click="openPeriod=false">X
+                </button>
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        <vuejs-datepicker :value="dateDebut"></vuejs-datepicker>
+                    </div>
+                    <div class="col-4">
+                        <vuejs-datepicker :value="dateFin"></vuejs-datepicker>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            </div>
         </div>
         <div class="col-4">
-            <button class="btn btn-app float-right">
+            <button class="btn btn-app float-right col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9"
+                    v-on:click="openAuthorList=true">
                 Choix Compte
             </button>
-            <div>
-                <div v-for="author in authorList">
-                    <input type="checkbox" v-model="authorSelected" name="authorSelected" :id="author" :value="author" v-on:change="refreshProjects()">
-                    <label :for="author">{{ author }}</label>
+            <div class="box-list" v-if="openAuthorList">
+                <button class="btn btn-app col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9"
+                        v-on:click="openAuthorList=false">X
+                </button>
+                <div v-for="author in authorList" class="btn-group-toggle">
+                    <label :for="author" class="btn btn-secondary col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9" v-bind:class="{ active: authorSelected.indexOf(author) >= 0}">
+                        <input type="checkbox" v-model="authorSelected" name="authorSelected" :id="author"
+                               :value="author">
+                        {{ author }}
+                    </label>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row menu">
         <div class="col-4"></div>
         <div class="col-4">
-            <button class="btn btn-app">
+            <button class="btn btn-app col-12 col-xl-6 col-lg-7 col-md-8 col-sm-9" v-on:click="refreshProjects()">
                 Valider
             </button>
         </div>
@@ -70,12 +100,15 @@
                     {{ git.nom }}
                 </div>
                 <div class="col-6">
-                    <a :href="git.url">Lien Github</a>
+                    <a :href="git.url" target="_blank">Lien Github</a>
                 </div>
             </div>
-            <div v-for="commit in git.commits">
+            <p v-for="commit in git.commits">
                 {{ commit.message }}
-            </div>
+            </p>
+            <p v-for="error in git.errors" class="text-danger">
+                {{ error.message }}
+            </p>
         </div>
     </div>
 </div>
@@ -89,6 +122,7 @@
         crossorigin="anonymous"></script>
 <!-- development version, includes helpful console warnings -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vuejs-datepicker"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="app.js"></script>
 </body>

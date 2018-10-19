@@ -1,14 +1,23 @@
 // Init conf variables
-var TOKEN = '6881346ff446427f2b903c856de5add948896420';
+var TOKEN = '7400fca147350b64d2275ca953dba6bd84e61538';
 var githubUri = 'https://api.github.com';
 
 var app = new Vue({
     el: '#app',
+    components: {
+        vuejsDatepicker
+    },
     data: {
+        openProjectList: false,
+        openAuthorList: false,
+        openPeriod: false,
+        isLoaded: false,
+        dateDebut: Date.now(),
+        dateFin: Date.now(),
         gitList: [],
         authorList: [
             'benjaminbra',
-            /*'Nair0fl',
+            'Nair0fl',
             'raphaelCharre',
             'mathiasLoiret',
             'thomaspich',
@@ -29,7 +38,7 @@ var app = new Vue({
             'AlexDesvallees',
             'rudy8530',
             'Killy85',
-            'alixnzt'*/
+            'alixnzt'
         ],
         projectList: [
             'github-ynov-vue',
@@ -37,8 +46,12 @@ var app = new Vue({
         projectSelected: [],
         authorSelected: [],
     },
+    created: function () {
+        this.isLoaded = true;
+    },
     methods: {
         refreshProjects: function () {
+            app.gitList = [];
             for (let pS in this.projectSelected) {
                 for (let aS in this.authorSelected) {
                     axios({
@@ -50,13 +63,13 @@ var app = new Vue({
                         url: `${githubUri}/repos/${this.authorSelected[aS]}/${this.projectSelected[pS]}`
                     })
                         .then(function (response) {
-                            app.gitList = [];
                             repo = response.data;
 
                             var newGit = {};
                             newGit.nom = repo.full_name;
                             newGit.url = repo.html_url;
                             newGit.commits = [];
+                            newGit.errors = [];
 
                             axios({
                                 headers: {
@@ -68,13 +81,19 @@ var app = new Vue({
                             })
                                 .then(function (response) {
                                     for (c in response.data) {
+                                        var commitResponse = response.data[c].commit;
                                         var commit = {};
-                                        commit.message = response.data[c].commit.message;
+                                        commit.message = commitResponse.message;
                                         newGit.commits.push(commit);
                                     }
                                     app.gitList.push(newGit);
                                 })
-
+                                .catch(function (errorResponse) {
+                                    var error = {};
+                                    error.message = errorResponse.response.data.message;
+                                    newGit.errors.push(error);
+                                    app.gitList.push(newGit);
+                                })
                         })
                 }
             }

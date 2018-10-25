@@ -1,4 +1,3 @@
 FROM nginx:alpine
 COPY . /usr/share/nginx/html
-WORKDIR /usr/share/nginx/html
-CMD cp config.js.example config.js
+CMD cp /usr/share/nginx/html/config.js.example /usr/share/nginx/html/config.js

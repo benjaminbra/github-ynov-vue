@@ -42,6 +42,7 @@ var app = new Vue({
         ],
         projectList: [
             'github-ynov-vue',
+            'gta-ynov-vue',
         ],
         projectSelected: [],
         authorSelected: [],

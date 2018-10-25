@@ -70,10 +70,24 @@ var app = new Vue({
                             let repo = response.data;
 
                             let newGit = {};
+                            newGit.id = repo.id;
                             newGit.nom = repo.full_name;
                             newGit.url = repo.html_url;
+                            newGit.readme = null;
                             newGit.commits = [];
                             newGit.errors = [];
+
+                            axios({
+                                headers: {
+                                    Accept: 'application/vnd.github.v3.html',
+                                    Authorization: `token ${TOKEN}`,
+                                },
+                                method: 'GET',
+                                url: `${githubUri}/repos/${repo.full_name}/readme`,
+                            }).then(function (response) {
+                                console.log(response);
+                                newGit.readme = response.data;
+                            });
 
                             axios({
                                 headers: {

@@ -58,6 +58,16 @@ header{
     right: 0;
 }
 
+.content-block{
+    margin: 0;
+}
+
+.block-git{
+    padding: 0 15px;
+    border: 1px solid #aeaeae;
+    border-radius: 3px;
+}
+
 .btn-secondary{
     border-radius: 0;
 }
@@ -76,4 +86,18 @@ header{
     text-decoration: none;
     color: black;
     background: navajowhite;
+}
+
+.btn-readme{
+    background: none;
+    color: black;
+    border: none;
+    border-bottom: 1px solid grey;
+    width: 100%;
+    text-align: left;
+    font-weight: 600;
+}
+
+.readme-info{
+    border-bottom: 1px solid grey;
 }

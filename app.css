@@ -92,12 +92,12 @@ header{
     background: none;
     color: black;
     border: none;
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid #aeaeae;
     width: 100%;
     text-align: left;
     font-weight: 600;
 }
 
 .readme-info{
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid #aeaeae;
 }

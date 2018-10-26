@@ -1,4 +1,37 @@
 var config = {
-    "TOKEN": "${TOKEN}",
-    "GITHUB_URL": "https://api.github.com"
-}
+    TOKEN: "${TOKEN}",
+    GITHUB_URL: "https://api.github.com",
+    authorList: [
+        'benjaminbra',
+        'Nair0fl',
+        'raphaelCharre',
+        'mathiasLoiret',
+        'thomaspich',
+        'TeofiloJ',
+        'Grigusky',
+        'Dakistos',
+        'mael61',
+        'KevinPautonnier',
+        'BenoitCochet',
+        'sfongue',
+        'ClementCaillaud',
+        'gfourny',
+        'Mokui',
+        'LordInateur',
+        'AntoineGOSSET',
+        'etienneYnov',
+        'Coblestone',
+        'AlexDesvallees',
+        'rudy8530',
+        'Killy85',
+        'alixnzt',
+        'mcourant',
+        'msaintmartin',
+        'maximerolland',
+    ],
+    projectList: [
+        'github-ynov-vue',
+        'gta-ynov-vue'
+    ],
+};
+

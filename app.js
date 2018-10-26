@@ -19,6 +19,8 @@ var app = new Vue({
         gitList: [],
         authorList: authorList,
         projectList: projectList,
+        projectSelected: [],
+        authorSelected: [],
     },
     created: function () {
         this.isLoaded = true;

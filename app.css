@@ -47,15 +47,15 @@ header{
 
 .box-list{
     position: fixed;
-    background: white;
-    width: 100%;
-    z-index: 1000;
-    overflow-y: scroll;
-    margin: 0;
-    height: 100%;
-    padding: 0;
-    top: 0;
-    right: 0;
+background: white;
+width: 100%;
+z-index: 1000;
+overflow-y: scroll;
+margin: 0;
+height: 100%;
+padding: 0;
+top: 0;
+right: 0;
 }
 
 .content-block{

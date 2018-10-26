@@ -1,6 +1,8 @@
 // Init conf variables
 var TOKEN = config.TOKEN;
 var githubUri = config.GITHUB_URL;
+var authorList = config.authorList;
+var projectList = config.projectList;
 
 var app = new Vue({
     el: '#app',
@@ -15,34 +17,8 @@ var app = new Vue({
         dateDebut: Date.now(),
         dateFin: Date.now(),
         gitList: [],
-        authorList: [
-            'benjaminbra',
-            'Nair0fl',
-            'raphaelCharre',
-            'mathiasLoiret',
-            'thomaspich',
-            'TeofiloJ',
-            'Grigusky',
-            'Dakistos',
-            'mael61',
-            'KevinPautonnier',
-            'BenoitCochet',
-            'sfongue',
-            'ClementCaillaud',
-            'gfourny',
-            'Mokui',
-            'LordInateur',
-            'AntoineGOSSET',
-            'etienneYnov',
-            'Coblestone',
-            'AlexDesvallees',
-            'rudy8530',
-            'Killy85',
-            'alixnzt'
-        ],
-        projectList: [
-            'github-ynov-vue',
-        ],
+        authorList: authorList,
+        projectList: projectList,
         projectSelected: [],
         authorSelected: [],
     },
